@@ -1,7 +1,17 @@
 import { ActorAggregate } from '../../domain';
 
+export interface Paginated<T extends string> {
+  page: number;
+  limit: number;
+  sortBy?: T;
+  order?: 'asc' | 'desc';
+  search?: string;
+}
+
 export abstract class ActorRepository {
-  abstract save(actor: ActorAggregate): Promise<boolean>;
+  abstract save(actor: ActorAggregate): Promise<ActorAggregate>;
   abstract findById(id: string): Promise<ActorAggregate | null>;
-  abstract findAll(): Promise<ActorAggregate[] | null>;
+  abstract findAll<T extends string>(
+    dto: Paginated<T>,
+  ): Promise<{ data: ActorAggregate[]; total: number }>;
 }

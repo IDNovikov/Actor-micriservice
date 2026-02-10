@@ -2,7 +2,6 @@ import { IActor } from './actor.interface';
 import { DomainError } from 'src/errors';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { ActorCreatedEvent } from './events/actor-created.event';
-import { ActorAuthorUpdatedEvent } from './events/actor-author-update.event';
 
 export class ActorAggregate extends AggregateRoot implements IActor {
   private constructor(private props: IActor) {
@@ -49,7 +48,5 @@ export class ActorAggregate extends AggregateRoot implements IActor {
       author: trimmed,
       updatedAt: now,
     };
-
-    this.apply(new ActorAuthorUpdatedEvent(trimmed, now));
   }
 }

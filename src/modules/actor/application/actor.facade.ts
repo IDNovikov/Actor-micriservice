@@ -1,5 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
+import { CreateActorDTO } from './commands/dto/create-actor.dto';
+import { CreateActorCommand } from './commands/create-actor/create-actor.command';
+import { ActorAggregate } from '../domain';
+import { UpdateAuthorActorDTO } from './commands/dto/update-author-actor.dto';
+import { UpdateActorAuthCommand } from './commands/update-author-actor/update-author-actor.command';
+import { GetActorQuery } from './queries/get-actor/get-actor-query.command';
+import { GetPaginatedActor } from './queries/dto/get-actors-query.dto';
+import { GetActorsQuery } from './queries/get-all-actors/get-actors-query.command';
 
 @Injectable()
 export class ActorFacade {
@@ -10,33 +18,41 @@ export class ActorFacade {
   ) {}
 
   commands = {
-    createActor: (actor: CreateUserDTO) => this.createActor(actor),
+    createActor: (actor: CreateActorDTO) => this.createActor(actor),
+    updateAuthorActor: (dto: UpdateAuthorActorDTO) =>
+      this.updateAuthorActor(dto),
   };
+
   queries = {
-    getActor: (id: number) => this.getActor(id),
-    getActors: (dto: GetUsersDTO) => this.getActors(dto),
+    getActorById: (id: string) => this.getActorById(id),
+    getPaginatedActors: (dto: GetPaginatedActor) =>
+      this.getPaginatedActors(dto),
   };
+
   events = {};
 
-  private createUser(user: CreateUserDTO) {
-    return this.CommandBus.execute<CreateUserCommand, UserAggregate>(
-      new CreateUserCommand(user),
+  private createActor(actor: CreateActorDTO) {
+    return this.CommandBus.execute<CreateActorCommand, ActorAggregate>(
+      new CreateActorCommand(actor),
     );
   }
 
-  //update
-  //delete
-
-  private getUser(id: number) {
-    return this.QueryBus.execute<GetUserQuery, UserAggregate>(
-      new GetUserQuery(id),
+  private updateAuthorActor(dto: UpdateAuthorActorDTO) {
+    return this.CommandBus.execute<UpdateActorAuthCommand, ActorAggregate>(
+      new UpdateActorAuthCommand(dto),
     );
   }
 
-  private getUsers(dto: GetUsersDTO) {
+  private getActorById(id: string) {
+    return this.QueryBus.execute<GetActorQuery, ActorAggregate>(
+      new GetActorQuery(id),
+    );
+  }
+
+  private getPaginatedActors(dto: GetPaginatedActor) {
     return this.QueryBus.execute<
-      GetUsersQuery,
-      { data: UserAggregate[]; total: number }
-    >(new GetUsersQuery(dto));
+      GetActorsQuery,
+      { data: ActorAggregate[]; total: number }
+    >(new GetActorsQuery(dto));
   }
 }
