@@ -16,10 +16,12 @@ export class CreateActorHandler implements ICommandHandler<
 
     const existingActor = await this.actorRepository.findById(actor.id);
 
-    if (actor.id === existingActor?.id) {
-      throw new ConflictException(`Actor already created`);
+    if (actor.createdAt === existingActor?.createdAt) {
+      throw new ConflictException(`Actor has created`);
     }
     const created = await this.actorRepository.save(actor);
+
+    actor.commit();
     return created;
   }
 }

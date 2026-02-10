@@ -8,6 +8,7 @@ import {
   getSwaggerConfig,
   getValidationPipeConfig,
 } from './config';
+import { LoggingInterceptors } from './interceptors/loggining.intrceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,8 @@ async function bootstrap() {
 
   //PIPES
   app.useGlobalPipes(new ValidationPipe(getValidationPipeConfig()));
+  //Interceptors
+  app.useGlobalInterceptors(new LoggingInterceptors());
 
   //CORS
   app.enableCors(getCorsConfig(config));
