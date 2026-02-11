@@ -1,5 +1,5 @@
 import { IActor } from './actor.interface';
-import { DomainError } from 'src/errors';
+import { DomainError } from 'src/common/errors';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { ActorCreatedEvent } from './events/actor-created.event';
 

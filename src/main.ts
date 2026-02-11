@@ -7,8 +7,8 @@ import {
   getCorsConfig,
   getSwaggerConfig,
   getValidationPipeConfig,
-} from './config';
-import { LoggingInterceptors } from './interceptors/loggining.intrceptor';
+} from './common/config';
+import { LoggingInterceptors } from './common/interceptors/loggining.intrceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
