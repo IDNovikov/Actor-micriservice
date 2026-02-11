@@ -1,3 +1,3 @@
 export class CreateActorDTO {
-  author: string | null;
+  author: string | null = null;
 }

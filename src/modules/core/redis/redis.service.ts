@@ -9,8 +9,9 @@ import IORedis, { RedisOptions } from 'ioredis';
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
-  private client: IORedis;
+  private client!: IORedis;
   private readonly logger = new Logger();
+
   constructor(private readonly config: ConfigService) {}
 
   async onModuleInit() {
@@ -22,6 +23,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
       maxRetriesPerRequest: 3,
       enableReadyCheck: true,
       connectTimeout: 5000,
+      lazyConnect: true,
     };
     this.client = new IORedis(options);
     await this.client.connect();

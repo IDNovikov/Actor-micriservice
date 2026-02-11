@@ -1,3 +1,3 @@
-export class UpdateAuthorActorDTO {
+export type UpdateAuthorActorDTO = {
   author: string;
-}
+};
