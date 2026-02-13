@@ -143,7 +143,7 @@ export type ActorGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type ActorGroupByOutputType = {
   id: string
-  author: string
+  author: string | null
   createdAt: string
   updatedAt: string
   _count: ActorCountAggregateOutputType | null
@@ -171,14 +171,14 @@ export type ActorWhereInput = {
   OR?: Prisma.ActorWhereInput[]
   NOT?: Prisma.ActorWhereInput | Prisma.ActorWhereInput[]
   id?: Prisma.UuidFilter<"Actor"> | string
-  author?: Prisma.StringFilter<"Actor"> | string
+  author?: Prisma.StringNullableFilter<"Actor"> | string | null
   createdAt?: Prisma.StringFilter<"Actor"> | string
   updatedAt?: Prisma.StringFilter<"Actor"> | string
 }
 
 export type ActorOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  author?: Prisma.SortOrder
+  author?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -188,14 +188,14 @@ export type ActorWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ActorWhereInput | Prisma.ActorWhereInput[]
   OR?: Prisma.ActorWhereInput[]
   NOT?: Prisma.ActorWhereInput | Prisma.ActorWhereInput[]
-  author?: Prisma.StringFilter<"Actor"> | string
+  author?: Prisma.StringNullableFilter<"Actor"> | string | null
   createdAt?: Prisma.StringFilter<"Actor"> | string
   updatedAt?: Prisma.StringFilter<"Actor"> | string
 }, "id">
 
 export type ActorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  author?: Prisma.SortOrder
+  author?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ActorCountOrderByAggregateInput
@@ -208,56 +208,56 @@ export type ActorScalarWhereWithAggregatesInput = {
   OR?: Prisma.ActorScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ActorScalarWhereWithAggregatesInput | Prisma.ActorScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Actor"> | string
-  author?: Prisma.StringWithAggregatesFilter<"Actor"> | string
+  author?: Prisma.StringNullableWithAggregatesFilter<"Actor"> | string | null
   createdAt?: Prisma.StringWithAggregatesFilter<"Actor"> | string
   updatedAt?: Prisma.StringWithAggregatesFilter<"Actor"> | string
 }
 
 export type ActorCreateInput = {
   id?: string
-  author: string
+  author?: string | null
   createdAt: string
   updatedAt: string
 }
 
 export type ActorUncheckedCreateInput = {
   id?: string
-  author: string
+  author?: string | null
   createdAt: string
   updatedAt: string
 }
 
 export type ActorUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  author?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ActorUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  author?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ActorCreateManyInput = {
   id?: string
-  author: string
+  author?: string | null
   createdAt: string
   updatedAt: string
 }
 
 export type ActorUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  author?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ActorUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  author?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -285,6 +285,10 @@ export type ActorMinOrderByAggregateInput = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 
@@ -324,7 +328,7 @@ export type $ActorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    author: string
+    author: string | null
     createdAt: string
     updatedAt: string
   }, ExtArgs["result"]["actor"]>

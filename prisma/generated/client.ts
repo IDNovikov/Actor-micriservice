@@ -42,3 +42,8 @@ export { Prisma }
  * 
  */
 export type Actor = Prisma.ActorModel
+/**
+ * Model OutboxEvent
+ * 
+ */
+export type OutboxEvent = Prisma.OutboxEventModel
