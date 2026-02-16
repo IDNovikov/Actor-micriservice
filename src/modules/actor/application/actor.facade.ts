@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
 import { CreateActorDTO } from './commands/dto/create-actor.dto';
 import { CreateActorCommand } from './commands/create-actor/create-actor.command';
 import { ActorAggregate } from '../domain';
@@ -14,6 +14,7 @@ export class ActorFacade {
   constructor(
     private readonly CommandBus: CommandBus,
     private readonly QueryBus: QueryBus,
+    private readonly EventBus: EventBus,
   ) {}
 
   commands = {

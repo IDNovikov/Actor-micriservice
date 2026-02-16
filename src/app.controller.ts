@@ -15,7 +15,7 @@ export class AppController {
       await this.prisma.$queryRaw`SELECT 1`;
       const pong = await this.redis.ping();
       if (pong !== 'PONG') throw new Error(`Redis ping: ${pong}`);
-      return { status: 'ok' };
+      return { status: 'ok', redis: pong };
     } catch (e) {
       throw new ServiceUnavailableException({
         status: 'fail',

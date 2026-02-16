@@ -17,7 +17,7 @@ import { amqpConfig } from './amqp.config';
       useFactory: (configService: ConfigService) => amqpConfig(configService),
     }),
   ],
-  providers: [RabbitRpcParamsFactory, AmqpConnection],
-  exports: [RabbitMQModule, RabbitRpcParamsFactory, AmqpConnection],
+  providers: [RabbitRpcParamsFactory],
+  exports: [RabbitMQModule, RabbitRpcParamsFactory],
 })
 export class AmqpModule {}

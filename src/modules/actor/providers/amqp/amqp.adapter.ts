@@ -13,6 +13,7 @@ export class RabbitPublisher extends RabbitConsumer {
   }
 
   async AmqpSendMail(payload: any): Promise<void> {
+    console.log(payload);
     await this.amqp.publish('mail', 'mail.send', payload);
   }
 }

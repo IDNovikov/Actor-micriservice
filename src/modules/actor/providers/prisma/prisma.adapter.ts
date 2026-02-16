@@ -1,20 +1,17 @@
 import { PrismaService } from 'src/modules/core/prisma/prisma.service';
-import { ActorRepository, Paginated } from './prisma.port';
+import { ActorDBPort, Paginated, TxFn } from './prisma.port';
 import { ActorAggregate } from '../../domain';
-import { Prisma } from 'prisma/generated/browser';
 import { Injectable } from '@nestjs/common';
+import { Prisma } from 'prisma/generated/browser';
 
 @Injectable()
-export class PrismaActorRepository extends ActorRepository {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly db: Prisma.TransactionClient,
-  ) {
+export class ActorDBAdapter extends ActorDBPort {
+  constructor(private readonly prisma: PrismaService) {
     super();
   }
 
   async save(actor: ActorAggregate): Promise<ActorAggregate> {
-    const row = await this.db.actor.upsert({
+    const row = await this.prisma.actor.upsert({
       where: { id: actor.id },
       create: {
         id: actor.id,
@@ -32,7 +29,7 @@ export class PrismaActorRepository extends ActorRepository {
   }
 
   async findById(id: string): Promise<ActorAggregate | null> {
-    const row = await this.db.actor.findUnique({ where: { id } });
+    const row = await this.prisma.actor.findUnique({ where: { id } });
     return row ? ActorAggregate.restore(row) : null;
   }
 
@@ -53,22 +50,22 @@ export class PrismaActorRepository extends ActorRepository {
       : {};
 
     const [items, total] = await Promise.all([
-      this.db.actor.findMany({
+      this.prisma.actor.findMany({
         where,
         orderBy: { [sortBy]: order },
         skip: (page - 1) * limit,
         take: limit,
       }),
-      this.db.actor.count({ where }),
+      this.prisma.actor.count({ where }),
     ]);
 
     return { data: items.map(ActorAggregate.restore), total };
   }
 
-  async transaction<T>(fn: (repo: ActorRepository) => Promise<T>): Promise<T> {
-    return this.prisma.$transaction(async (tx) => {
-      const txRepo = new PrismaActorRepository(this.prisma, tx);
-      return fn(txRepo);
-    });
-  }
+  // async transaction<T>(fn: TxFn<ActorRepository, T>): Promise<T> {
+  //   return this.prisma.transaction(async (tx) => {
+  //     const txRepo = new PrismaActorRepository(tx);
+  //     return fn(txRepo);
+  //   });
+  // }
 }

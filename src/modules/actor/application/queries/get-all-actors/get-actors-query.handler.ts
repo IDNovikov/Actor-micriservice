@@ -7,8 +7,7 @@ import {
 } from '@nestjs/common';
 import { GetActorsQuery } from './get-actors-query.command';
 import { ActorAggregate } from 'src/modules/actor/domain';
-import { ActorRepository } from 'src/modules/actor/providers';
-import { GetPaginatedActor } from '../dto/get-actors-query.dto';
+import { ActorDBPort } from 'src/modules/actor/providers';
 
 @QueryHandler(GetActorsQuery)
 export class GetActorsQueryHandler implements IQueryHandler<
@@ -19,7 +18,7 @@ export class GetActorsQueryHandler implements IQueryHandler<
   }
 > {
   private readonly logger = new Logger(GetActorsQueryHandler.name);
-  constructor(private readonly actorRepository: ActorRepository) {}
+  constructor(private readonly actorRepository: ActorDBPort) {}
 
   async execute({ dto }: GetActorsQuery): Promise<{
     data: ActorAggregate[];
